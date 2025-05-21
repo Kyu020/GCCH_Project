@@ -121,9 +121,10 @@ class ApplicantController extends Controller
             $otherJobs = Job::whereNotIn('id', $matchedJobsIds)
                 ->get();
 
-            $jobs = $matchedJobs->merge($otherJobs);
-
-            return response()->json(['jobs' => $jobs], 200);
+            return response()->json([
+                'matchedjobs' => $matchedJobs,
+                'otherjobs' => $otherJobs
+            ], 200);
 
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->validator->errors()], 422);
